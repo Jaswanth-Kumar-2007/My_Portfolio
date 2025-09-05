@@ -1,253 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jaswanth Kumar - Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jaswanth Kumar — Portfolio</title>
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a2e0f1f5d2.js" crossorigin="anonymous"></script>
+
   <style>
-    * {margin:0;padding:0;box-sizing:border-box;}
-    body {
-      font-family:'Segoe UI',sans-serif;
-      background:linear-gradient(120deg,#fdfbfb,#ebedee);
-      color:#222;overflow-x:hidden;
-      transition:background 0.5s,color 0.5s;
+    :root{
+      --accent-1: #ff2d95;
+      --accent-2: #7c3aed;
+      --accent-3: #06b6d4;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.08);
+      --muted-light: rgba(236,254,255,0.85);
+      --muted-dark: rgba(6,16,41,0.85);
+    }
+    [data-theme="light"]{
+      --accent-1: #7c3aed;
+      --accent-2: #06b6d4;
+      --accent-3: #ffd66b;
+      --glass: rgba(14,165,233,0.04);
+      --glass-border: rgba(14,165,233,0.08);
+      --muted-light: rgba(6,16,41,0.95);
+      color:#0a0a0a;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:"Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+      overflow-x:hidden;
       position:relative;
-    }
-    body.dark {
-      background:linear-gradient(120deg,#0f0c29,#302b63,#24243e);
-      color:#f0f0f0;
-    }
-    a {text-decoration:none;color:inherit;}
-    
-    /* Particle Canvas */
-    #particles {
-      position:fixed;
-      top:0;left:0;
-      width:100%;height:100%;
-      z-index:-1;
+      background:linear-gradient(120deg,var(--accent-2),var(--accent-1),var(--accent-3));
     }
 
-    nav {
-      display:flex;justify-content:space-between;align-items:center;
-      padding:15px 40px;position:fixed;width:100%;top:0;
-      background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);
-      z-index:1000;transition:background 0.5s;
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:120; display:flex; justify-content:space-between; align-items:center;
+      padding:14px 22px; background:rgba(3,6,12,0.14); backdrop-filter: blur(8px) saturate(120%);
+      border-bottom:1px solid var(--glass-border);
+      color:#eaf6fb;
     }
-    nav.dark {background:rgba(0,0,0,0.4);}
-    nav h1 {font-size:22px;font-weight:bold;}
-    nav ul {display:flex;list-style:none;gap:20px;}
-    nav ul li a:hover {color:#ff4081;}
-    .toggles {display:flex;gap:15px;align-items:center;}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:700; letter-spacing:0.4px}
+    header nav{ display:flex; gap:14px; align-items:center}
+    header nav a{ color:inherit; font-weight:600; padding:6px 8px; border-radius:8px; transition: transform .15s, color .15s}
+    header nav a:hover{ transform: translateY(-4px); color:var(--accent-3)}
 
-    .switch {position:relative;display:inline-block;width:50px;height:24px;}
-    .switch input {opacity:0;width:0;height:0;}
-    .slider {
-      position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
-      background:#ccc;transition:.4s;border-radius:24px;
+    /* Futuristic toggle switch */
+    .theme-toggle {
+      --toggle-width: 60px;
+      --toggle-height: 28px;
+      --toggle-padding: 4px;
+      width: var(--toggle-width);
+      height: var(--toggle-height);
+      border-radius: 50px;
+      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      padding: var(--toggle-padding);
     }
-    .slider:before {
-      position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;
-      background:white;transition:.4s;border-radius:50%;
+    .theme-toggle::before {
+      content: "";
+      position: absolute;
+      top: var(--toggle-padding);
+      left: var(--toggle-padding);
+      width: calc(var(--toggle-height) - var(--toggle-padding)*2);
+      height: calc(var(--toggle-height) - var(--toggle-padding)*2);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(255,255,255,0.6);
+      transition: transform 0.35s cubic-bezier(.4,0,.2,1);
     }
-    input:checked + .slider {background:#2196f3;}
-    input:checked + .slider:before {transform:translateX(26px);}
+    body[data-theme="light"] .theme-toggle::before {
+      transform: translateX(calc(var(--toggle-width) - var(--toggle-height)));
+      background: #ffd66b;
+      box-shadow: 0 0 10px rgba(255,214,107,0.8);
+    }
 
-    header {
-      height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-      text-align:center;padding:0 20px;
+    /* Hero section */
+    .hero{
+      min-height:100vh; display:flex; justify-content:center; align-items:center; flex-direction:column; text-align:center;
+      color:#fff;
     }
-    header h2 {
-      font-size:48px;font-weight:800;
-      background:linear-gradient(45deg,#ff4081,#2196f3,#00ffcc);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      animation:glow 3s infinite alternate;
-    }
-    header p {font-size:20px;margin-top:10px;}
-    @keyframes glow {
-      from {text-shadow:0 0 10px #ff4081;}
-      to {text-shadow:0 0 20px #00ffcc;}
-    }
+    #typing{ font-size:1.6rem; margin-top:8px; color:var(--accent-3); }
 
-    section {padding:80px 20px;text-align:center;}
-    h3 {font-size:32px;margin-bottom:20px;}
+    /* Sections */
+    section{ padding:80px 20px; text-align:center; color:#fff; }
+    [data-theme="light"] section { color:#111; }
 
-    .skills {
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:20px;
+    /* Socials */
+    .socials{display:flex; gap:12px; margin-top:20px; justify-content:center}
+    .socials a{ 
+      display:grid; place-items:center; width:48px; height:48px; border-radius:12px;
+      background:linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border:1px solid var(--glass-border);
+      color:#fff; 
+      transition: transform .18s, box-shadow .18s, color .18s;
     }
-    .skill {
-      padding:20px;background:rgba(255,255,255,0.2);
-      border-radius:12px;transition:transform 0.3s;
-      cursor:pointer;
-    }
-    body.dark .skill {background:rgba(0,0,0,0.3);}
-    .skill:hover {transform:scale(1.1) rotateY(10deg);}
+    [data-theme="light"] .socials a { color:#111; }
+    .socials a:hover{ transform: translateY(-6px) scale(1.06); box-shadow:0 10px 30px rgba(2,6,23,0.35); color:var(--accent-3) }
 
-    .projects {
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;
-    }
-    .project {
-      padding:20px;border-radius:12px;background:rgba(255,255,255,0.2);
-      transition:transform 0.3s;cursor:pointer;
-    }
-    body.dark .project {background:rgba(0,0,0,0.3);}
-    .project:hover {transform:scale(1.05);}
-    .project a {color:#2196f3;font-weight:bold;}
-
-    footer {
-      padding:30px;text-align:center;
-      background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);
-    }
-    body.dark footer {background:rgba(0,0,0,0.4);}
-    .socials {margin-top:10px;display:flex;justify-content:center;gap:20px;}
-    .socials a {font-size:26px;transition:transform 0.3s;}
-    .socials a:hover {transform:scale(1.3);color:#ff4081;}
-
-    #loader {
+    /* Loader */
+    .loader-overlay{
       position:fixed;top:0;left:0;width:100%;height:100%;
-      background:#000;display:flex;justify-content:center;align-items:center;
-      z-index:2000;transition:opacity 0.5s;opacity:1;
+      display:flex;justify-content:center;align-items:center;
+      background:rgba(0,0,0,0.85);z-index:200;transition:opacity .4s;
     }
-    #loader.hidden {opacity:0;pointer-events:none;}
-    .infinity-loader {
-      width:100px;height:100px;border:4px solid transparent;border-top:4px solid #ff4081;
-      border-radius:50%;animation:spin 1s linear infinite;
+    .loader{width:60px;height:60px;border:6px solid #fff;border-top:6px solid var(--accent-3);border-radius:50%;animation:spin 1s linear infinite}
+    @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+
+    /* Cursor trail dots */
+    .cursor-dot{
+      position:absolute;width:8px;height:8px;border-radius:50%;pointer-events:none;
+      background:var(--accent-3);animation:fadeOut .9s forwards;
     }
-    @keyframes spin {100%{transform:rotate(360deg);}}
+    @keyframes fadeOut{
+      to{opacity:0;transform:scale(0.4)}
+    }
   </style>
 </head>
-<body>
-  <!-- Particle Background -->
-  <canvas id="particles"></canvas>
+<body data-theme="light"> <!-- Light Mode Default -->
 
   <!-- Loader -->
-  <div id="loader"><div class="infinity-loader"></div></div>
+  <div class="loader-overlay" id="loader">
+    <div class="loader"></div>
+  </div>
 
-  <!-- Navbar -->
-  <nav id="navbar">
-    <h1>Jaswanth Kumar</h1>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="toggles">
-      <label class="switch">
-        <input type="checkbox" id="modeToggle">
-        <span class="slider"></span>
-      </label>
-    </div>
-  </nav>
+  <!-- Canvas background -->
+  <canvas id="bgCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;"></canvas>
 
-  <!-- Hero -->
+  <!-- HEADER -->
   <header>
-    <h2>Hello, I'm Jaswanth</h2>
-    <p>Open Source Enthusiast | Future Software Engineer</p>
+    <div class="brand"><i class="fas fa-rocket" style="color:var(--accent-3)"></i><div>Jaswanth Kumar</div></div>
+    <nav>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <div class="theme-toggle" id="themeToggle" title="Toggle theme"></div>
+    </nav>
   </header>
 
-  <!-- About -->
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Hi — I'm Jaswanth</h1>
+    <div id="typing"></div>
+  </section>
+
+  <!-- ABOUT -->
   <section id="about">
-    <h3>About Me</h3>
-    <p>I am a passionate student exploring programming, AI, and modern web development.</p>
+    <h2>About</h2>
+    <p>I’m an aspiring software engineer passionate about web development and open source.</p>
   </section>
 
-  <!-- Skills -->
+  <!-- SKILLS -->
   <section id="skills">
-    <h3>Skills</h3>
-    <div class="skills">
-      <div class="skill">Python</div>
-      <div class="skill">C</div>
-      <div class="skill">JavaScript</div>
-      <div class="skill">React</div>
-      <div class="skill">Tailwind</div>
-    </div>
+    <h2>Skills</h2>
+    <ul>
+      <li>JavaScript</li>
+      <li>Python</li>
+      <li>React</li>
+      <li>Node.js</li>
+    </ul>
   </section>
 
-  <!-- Projects -->
+  <!-- PROJECTS -->
   <section id="projects">
-    <h3>Projects</h3>
-    <div class="projects">
-      <div class="project">
-        <h4>Product Space AI Project</h4>
-        <a href="https://github.com/Jaswanth-Kumar-2007/Product-Space-AI-Project" target="_blank">View on GitHub</a>
-      </div>
-      <div class="project">
-        <h4>Student Study Helper</h4>
-        <a href="https://github.com/Jaswanth-Kumar-2007/Student-Study-Helper" target="_blank">View on GitHub</a>
-      </div>
-    </div>
+    <h2>Projects</h2>
+    <p>Coming soon…</p>
   </section>
 
-  <!-- Contact -->
+  <!-- CONTACT -->
   <section id="contact">
-    <h3>Contact</h3>
-    <p>Feel free to connect with me on social platforms:</p>
+    <h2>Get in Touch</h2>
     <div class="socials">
-      <a href="https://github.com/Jaswanth-Kumar-2007" target="_blank">🐱</a>
-      <a href="https://www.linkedin.com/in/jaswanth-kumar-kamireddi-86ba09373/" target="_blank">💼</a>
-      <a href="https://www.instagram.com/kjk._.06/" target="_blank">📸</a>
+      <a href="https://github.com/Jaswanth-Kumar-2007" aria-label="GitHub"><i class="fab fa-github fa-lg"></i></a>
+      <a href="https://www.linkedin.com/in/jaswanth-kumar-kamireddi-86ba09373/" aria-label="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
+      <a href="https://www.instagram.com/kjk._.06/" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
     </div>
   </section>
-
-  <footer>
-    <p>© 2025 Jaswanth Kumar</p>
-  </footer>
 
   <script>
-    // Loader
-    window.addEventListener("load", ()=> {
-      setTimeout(()=> document.getElementById("loader").classList.add("hidden"), 800);
+    /* ---------- Loader ---------- */
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', ()=> {
+      setTimeout(()=> loader.style.opacity = 0, 700);
+      setTimeout(()=> loader.style.display = "none", 1100);
     });
 
-    // Dark Mode Toggle
-    const toggle = document.getElementById("modeToggle");
-    const body = document.body;
-    const nav = document.getElementById("navbar");
-    toggle.addEventListener("change", ()=>{
-      body.classList.toggle("dark");
-      nav.classList.toggle("dark");
+    /* ---------- Typing effect ---------- */
+    const phrases = ["Aspiring Software Engineer", "Open Source Enthusiast", "Web Developer"];
+    const typingEl = document.getElementById('typing');
+    let pIndex = 0, chIndex = 0, deleting = false;
+    const typeSpeed = 100, deleteSpeed = 50, pause = 1400;
+
+    function tick(){
+      const full = phrases[pIndex];
+      if(!deleting){
+        typingEl.textContent = full.slice(0, chIndex+1);
+        chIndex++;
+        if(chIndex === full.length){
+          deleting = true;
+          setTimeout(tick, pause);
+          return;
+        }
+      } else {
+        typingEl.textContent = full.slice(0, chIndex-1);
+        chIndex--;
+        if(chIndex === 0){
+          deleting = false;
+          pIndex = (pIndex+1) % phrases.length;
+        }
+      }
+      setTimeout(tick, deleting ? deleteSpeed : typeSpeed);
+    }
+    document.addEventListener('DOMContentLoaded', ()=> setTimeout(tick, 700) );
+
+    /* ---------- Theme Toggle ---------- */
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', ()=>{
+      const body = document.body;
+      if(body.getAttribute('data-theme') === 'dark'){ 
+        body.setAttribute('data-theme','light'); 
+      } else { 
+        body.setAttribute('data-theme','dark'); 
+      }
     });
 
-    // Infinity Loader before external links
-    document.querySelectorAll("a[target='_blank']").forEach(link=>{
-      link.addEventListener("click", (e)=>{
-        e.preventDefault();
-        document.getElementById("loader").classList.remove("hidden");
-        setTimeout(()=> window.open(link.href,"_blank"),1000);
-      });
-    });
-
-    // Particle Background
-    const canvas = document.getElementById("particles");
+    /* ---------- Particle Background ---------- */
+    const canvas = document.getElementById("bgCanvas");
     const ctx = canvas.getContext("2d");
     let particles = [];
-    function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
-    window.addEventListener("resize",resize);resize();
-
-    for(let i=0;i<60;i++){
-      particles.push({
-        x:Math.random()*canvas.width,
-        y:Math.random()*canvas.height,
-        r:Math.random()*3+1,
-        dx:(Math.random()-0.5)*1,
-        dy:(Math.random()-0.5)*1
-      });
+    function resizeCanvas(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-
-    function draw(){
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    function initParticles(){
+      particles = [];
+      for(let i=0;i<100;i++){
+        particles.push({
+          x: Math.random()*canvas.width,
+          y: Math.random()*canvas.height,
+          vx: (Math.random()-0.5)*1,
+          vy: (Math.random()-0.5)*1,
+          r: Math.random()*2+1
+        });
+      }
+    }
+    function animateParticles(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle=body.classList.contains("dark")?"#00ffcc":"#555";
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
       particles.forEach(p=>{
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width) p.vx*=-1;
+        if(p.y<0||p.y>canvas.height) p.vy*=-1;
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx.fill();
-        p.x+=p.dx;p.y+=p.dy;
-        if(p.x<0||p.x>canvas.width)p.dx*=-1;
-        if(p.y<0||p.y>canvas.height)p.dy*=-1;
       });
-      requestAnimationFrame(draw);
+      requestAnimationFrame(animateParticles);
     }
-    draw();
+    initParticles();
+    animateParticles();
+
+    /* ---------- Cursor Trail ---------- */
+    let dotCount = 0;
+    const maxDots = 30;
+    document.addEventListener('mousemove', e=>{
+      if(dotCount >= maxDots) return;
+      dotCount++;
+      const dot = document.createElement('div');
+      dot.className = 'cursor-dot';
+      dot.style.left = e.pageX + 'px';
+      dot.style.top = e.pageY + 'px';
+      document.body.appendChild(dot);
+      setTimeout(()=> { dot.remove(); dotCount--; }, 860);
+    });
   </script>
 </body>
 </html>
