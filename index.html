@@ -1,200 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jaswanth Kumar | Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jaswanth Kumar — Portfolio</title>
+
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a2e0f1f5d2.js" crossorigin="anonymous"></script>
+
   <style>
-    :root {
-      --bg-gradient: linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6);
-      --card-bg: rgba(30, 41, 59, 0.85);
-      --text-color: #f9fafb;
-      --accent: #fbbf24;
+    :root{
+      --bg: linear-gradient(135deg,#4c1d95 0%,#ff2d95 40%,#06b6d4 100%);
+      --card: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.08);
+      --text: #ecfeff;
+      --muted: rgba(236,254,255,0.8);
+      --accent: #ff2d95;
+      --neon: #06b6d4;
     }
 
     [data-theme="light"] {
-      --bg-gradient: linear-gradient(135deg, #fdfdfd, #f1f5f9, #e2e8f0);
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --text-color: #1e293b;
-      --accent: #2563eb;
+      --bg: linear-gradient(135deg,#f8fafc 0%,#eef2ff 50%,#f1f5f9 100%);
+      --card: rgba(14,165,233,0.06);
+      --glass-border: rgba(30,64,175,0.08);
+      --text: #061826;
+      --muted: rgba(6,16,41,0.8);
+      --accent: #7c3aed;
+      --neon: #0ea5e9;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: "Segoe UI", sans-serif; background: var(--bg-gradient); color: var(--text-color); transition: background 0.5s, color 0.5s; }
-    a { text-decoration: none; color: inherit; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height:100%; }
+    body {
+      font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      transition: background .5s ease, color .5s ease;
+      position: relative;
+    }
 
-    /* Navbar */
-    header { background: rgba(30, 41, 59, 0.5); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; }
-    header h1 { font-size: 1.5rem; font-weight: bold; }
-    nav a { margin: 0 12px; font-weight: bold; transition: color 0.3s; }
-    nav a:hover { color: var(--accent); }
-    .theme-toggle { cursor: pointer; font-size: 1.5rem; margin-left: 20px; transition: transform 0.3s; }
-    .theme-toggle:hover { transform: scale(1.2); }
+    a { color: inherit; text-decoration: none; }
+    /* Header */
+    header{
+      position: sticky; top:0; z-index:120;
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 14px 20px;
+      background: linear-gradient(180deg, rgba(7,7,10,0.15), rgba(7,7,10,0.05));
+      backdrop-filter: blur(8px) saturate(1.2);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    header .brand { font-weight:700; font-size:1.05rem; letter-spacing:0.6px; color:var(--text); display:flex; align-items:center; gap:10px; }
+    header nav { display:flex; gap:14px; align-items:center; }
+    header nav a { font-weight:600; opacity:0.95; padding:6px 8px; border-radius:8px; transition: all .18s ease; }
+    header nav a:hover { transform: translateY(-3px); color: var(--neon); }
+
+    .theme-toggle { cursor:pointer; margin-left:12px; font-size:18px; color:var(--text); }
 
     /* Hero */
-    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
-    .hero h1 { font-size: 3rem; color: var(--accent); }
-    .hero p { font-size: 1.3rem; margin: 15px 0; }
-    .typing { font-weight: bold; border-right: 2px solid var(--accent); padding-right: 5px; color: #22d3ee; }
+    .hero {
+      min-height:92vh; display:flex; align-items:center; justify-content:center; text-align:center;
+      padding:48px 20px;
+    }
+    .hero-inner { max-width:980px; }
+    .name {
+      font-size: clamp(2rem,5vw,3.6rem);
+      font-weight:800;
+      line-height:1;
+      letter-spacing: -0.02em;
+      display:inline-block;
+      background: linear-gradient(90deg,var(--accent),#ffd66b,#06b6d4);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation: floatIn .9s cubic-bezier(.2,.9,.2,1) both, neonGlow 2s ease-in-out infinite alternate;
+      text-shadow: 0 0 18px rgba(255,45,149,0.12);
+    }
+    @keyframes floatIn {
+      from { transform: translateY(18px) scale(.98); opacity:0; }
+      to { transform: translateY(0) scale(1); opacity:1; }
+    }
+    @keyframes neonGlow {
+      from { filter: drop-shadow(0 0 12px rgba(6,182,212,0.15)) ; }
+      to { filter: drop-shadow(0 0 34px rgba(255,45,149,0.18)); }
+    }
+    .hero .subtitle { margin-top:12px; font-size:1.1rem; color:var(--muted); display:flex; justify-content:center; gap:8px; align-items:center; flex-wrap:wrap; }
+    .typing { font-weight:700; color:var(--neon); border-right:2px solid var(--neon); padding-right:8px; }
 
     /* Sections */
-    section { padding: 60px 20px; max-width: 1100px; margin: auto; }
-    h2 { text-align: center; font-size: 2.3rem; margin-bottom: 20px; color: var(--accent); }
+    section { padding:48px 20px; max-width:1150px; margin: auto; }
+    h2 { font-size:1.7rem; text-align:center; color:var(--text); margin-bottom:18px; letter-spacing:0.4px; }
+    .subtext { text-align:center; color:var(--muted); margin-bottom:26px; max-width:880px; margin-left:auto; margin-right:auto; }
 
-    /* About */
-    .about p { text-align: center; font-size: 1.1rem; max-width: 800px; margin: auto; }
+    /* Cards layout */
+    .grid { display:grid; gap:20px; }
+    .skills { grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); }
+    .projects { grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
 
-    /* Skills */
-    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center; }
-    .skill { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.25); font-weight: bold; transition: all 0.4s ease; cursor: pointer; }
-    .skill:hover { transform: scale(1.05) rotate(1deg); background: rgba(255,255,255,0.08); }
-    .skill:active { animation: clickSpin 0.6s linear; }
-    @keyframes clickSpin {
-      0% { transform: scale(1) rotate(0); }
-      50% { transform: scale(0.9) rotate(180deg); }
-      100% { transform: scale(1) rotate(360deg); }
+    /* Glass card style */
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid var(--glass-border);
+      border-radius:14px;
+      padding:16px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.25);
+      transform-style: preserve-3d;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+      cursor:default;
+      will-change: transform;
     }
+    .card .title { font-weight:800; margin-bottom:8px; color:var(--text); }
+    .card .desc { color:var(--muted); font-size:0.95rem; }
 
-    /* Projects */
-    .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .project { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.25); transition: transform 0.3s, background 0.3s; }
-    .project:hover { transform: translateY(-8px) scale(1.02); }
-    .project h3 { margin-bottom: 10px; color: var(--accent); }
-    .btn { display: inline-block; background: #22d3ee; color: #1e293b; padding: 10px 16px; border-radius: 6px; margin-top: 10px; transition: 0.3s; font-weight: bold; }
-    .btn:hover { background: #0ea5e9; }
+    /* Tilt and depth on hover - applied via JS */
+    .card:hover { transform: translateZ(14px) scale(1.01); box-shadow: 0 18px 40px rgba(3,8,30,0.45); }
 
-    /* Contact */
-    .contact { text-align: center; }
-    .socials a { margin: 0 12px; font-size: 2rem; transition: transform 0.3s, color 0.3s; }
-    .socials a:hover { color: var(--accent); transform: scale(1.2); }
+    /* Skill specific */
+    .skill { text-align:center; padding:20px; user-select:none; }
 
-    /* Footer */
-    footer { text-align: center; padding: 20px; background: rgba(30,41,59,0.7); margin-top: 40px; }
+    /* Project specifics */
+    .project .btn { display:inline-flex; gap:10px; align-items:center; margin-top:12px; padding:10px 12px; border-radius:10px; font-weight:700; background: linear-gradient(90deg,#06b6d4,#7c3aed); color:#031025; box-shadow: 0 6px 18px rgba(7,12,25,0.25); border: none; }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav { display: none; }
-      header { flex-direction: column; }
-      .hero h1 { font-size: 2.2rem; }
-      .hero p { font-size: 1.1rem; }
+    /* Contact/social */
+    .socials { display:flex; gap:14px; justify-content:center; align-items:center; margin-top:12px; }
+    .socials a { display:inline-grid; place-items:center; width:48px; height:48px; border-radius:10px; background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid var(--glass-border); color:var(--text); transition: transform .18s ease, box-shadow .18s ease; }
+    .socials a:hover { transform: translateY(-6px) scale(1.06); box-shadow: 0 10px 30px rgba(2,6,23,0.35); color:var(--neon); }
+
+    /* Floating menu */
+    .menu-btn { position: fixed; right:18px; bottom:18px; width:58px; height:58px; border-radius:50%; background:linear-gradient(90deg,#ff2d95,#7c3aed); display:grid; place-items:center; color:#021122; z-index:250; box-shadow:0 12px 30px rgba(2,6,23,0.45); cursor:pointer; }
+    .sidebar { position:fixed; right:-260px; top:0; width:260px; height:100vh; padding:28px; display:flex; flex-direction:column; gap:20px; align-items:center; background:linear-gradient(180deg, rgba(6,6,10,0.6), rgba(6,6,10,0.35)); border-left:1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px) saturate(120%); transition:right .34s cubic-bezier(.2,.9,.2,1); z-index:245; }
+    .sidebar.active { right:0; }
+
+    /* Infinity loader overlay center */
+    .loader-overlay {
+      position: fixed; inset:0; display:grid; place-items:center; background: rgba(2,6,23,0.6);
+      z-index:9999; opacity:0; pointer-events:none; transition: opacity .18s ease;
+    }
+    .loader-overlay.show { opacity:1; pointer-events:auto; }
+    /* Infinity SVG animation container */
+    .loader-box { width:160px; height:80px; display:flex; align-items:center; justify-content:center; filter: drop-shadow(0 8px 30px rgba(0,0,0,0.45)); }
+    .infinity-svg { width:120px; height:60px; }
+    /* small caption */
+    .loader-caption { margin-top:14px; color:rgba(255,255,255,0.9); font-weight:700; letter-spacing:0.6px; text-align:center; font-size:13px; }
+
+    /* cursor trail dot */
+    .cursor-dot { position: fixed; width:12px; height:12px; border-radius:50%; pointer-events:none; transform: translate(-50%,-50%); z-index:9998; mix-blend-mode:screen; opacity:0.95; animation: dotFade .8s forwards; }
+    @keyframes dotFade { from {transform:translate(-50%,-50%) scale(1);} to {transform:translate(-50%,-50%) scale(.45); opacity:0;} }
+
+    /* responsive tweaks */
+    @media (max-width:900px){
+      header nav { display:none; }
+      .hero { padding-top:36px; padding-bottom:36px; }
+      .menu-btn { right:14px; bottom:14px; }
+    }
+    @media (max-width:520px){
+      .typing { font-size:0.96rem; }
+      .project .btn { width:100%; justify-content:center; }
     }
   </style>
-  <!-- FontAwesome -->
-  <script src="https://kit.fontawesome.com/a2e0f1f5d2.js" crossorigin="anonymous"></script>
 </head>
 <body data-theme="dark">
-  <!-- Navbar -->
+
+  <!-- HEADER -->
   <header>
-    <h1>Portfolio</h1>
-    <div style="display:flex; align-items:center;">
-      <nav>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <i class="fas fa-moon theme-toggle" id="themeToggle"></i>
+    <div class="brand">
+      <i class="fas fa-rocket" style="color:var(--neon)"></i>
+      <div>Jaswanth Kumar</div>
     </div>
+
+    <nav>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <div class="theme-toggle" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></div>
+    </nav>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Hi, I'm <span style="color:var(--accent)">Jaswanth Kumar</span></h1>
-    <p class="typing" id="typing"></p>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="about">
-    <h2>About Me</h2>
-    <p>
-      I'm a student developer who loves creating futuristic and modern web applications. 
-      Exploring Full-Stack Development, AI, and Open Source contributions 🚀.
-    </p>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills">
-    <h2>Skills</h2>
-    <div class="skills">
-      <div class="skill">HTML</div>
-      <div class="skill">CSS</div>
-      <div class="skill">JavaScript</div>
-      <div class="skill">Python</div>
-      <div class="skill">C++</div>
-      <div class="skill">SQL</div>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="project">
-        <h3>Product Space AI Project</h3>
-        <p>AI-powered product recommendation and space optimization project.</p>
-        <a href="https://github.com/Jaswanth-Kumar-2007/Product-Space-AI-Project" target="_blank" class="btn">View on GitHub</a>
+  <!-- HERO -->
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <div style="display:flex; justify-content:center;">
+          <div class="name">Hi — I'm <span style="display:inline-block; margin-left:8px;">Jaswanth</span></div>
+        </div>
+        <div class="subtitle" style="margin-top:14px;">
+          <div class="typing" id="typing"></div>
+        </div>
       </div>
-      <div class="project">
-        <h3>Student Study Helper</h3>
-        <p>A student productivity app for managing study schedules and resources.</p>
-        <a href="https://github.com/Jaswanth-Kumar-2007/Student-Study-Helper" target="_blank" class="btn">View on GitHub</a>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About Me</h2>
+      <p class="subtext">Student developer building futuristic web experiences. I explore Full-Stack development, AI, and open-source — creating beautiful, fast interfaces with delightful micro-interactions.</p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="grid skills" id="skillsGrid">
+        <div class="card skill" data-link="https://developer.mozilla.org/en-US/docs/Web/HTML">
+          <div class="title">HTML</div>
+          <div class="desc">Semantic structure & accessibility</div>
+        </div>
+        <div class="card skill" data-link="https://developer.mozilla.org/en-US/docs/Web/CSS">
+          <div class="title">CSS</div>
+          <div class="desc">Responsive, animations & modern layouts</div>
+        </div>
+        <div class="card skill" data-link="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
+          <div class="title">JavaScript</div>
+          <div class="desc">DOM, async, tooling & patterns</div>
+        </div>
+        <div class="card skill" data-link="https://www.python.org/">
+          <div class="title">Python</div>
+          <div class="desc">Scripting, ML prototyping</div>
+        </div>
+        <div class="card skill" data-link="https://isocpp.org/">
+          <div class="title">C++</div>
+          <div class="desc">Systems & performance</div>
+        </div>
+        <div class="card skill" data-link="https://www.mysql.com/">
+          <div class="title">SQL</div>
+          <div class="desc">Data modeling & queries</div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Contact -->
-  <section id="contact" class="contact">
-    <h2>Get in Touch</h2>
-    <p>Email: <a href="mailto:jaswanth@example.com">jaswanth@example.com</a></p>
-    <div class="socials">
-      <a href="https://github.com/Jaswanth-Kumar-2007" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/jaswanth-kumar-kamireddi-86ba09373/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/kjk._.06/" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
-  </section>
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="grid projects" id="projectsGrid">
+        <div class="card project" data-link="https://github.com/Jaswanth-Kumar-2007/Product-Space-AI-Project">
+          <div class="title">Product Space AI Project</div>
+          <div class="desc">AI-powered product recommendation & optimization.</div>
+          <button class="btn project-btn">Open on GitHub <i class="fas fa-external-link-alt" style="opacity:0.9"></i></button>
+        </div>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Jaswanth Kumar. All Rights Reserved.</p>
+        <div class="card project" data-link="https://github.com/Jaswanth-Kumar-2007/Student-Study-Helper">
+          <div class="title">Student Study Helper</div>
+          <div class="desc">Study planner & resources assistant for students.</div>
+          <button class="btn project-btn">Open on GitHub <i class="fas fa-external-link-alt" style="opacity:0.9"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Get in Touch</h2>
+      <p class="subtext">Email: <a href="mailto:jaswanth@example.com" class="external-link">jaswanth@example.com</a></p>
+      <div class="socials">
+        <a href="https://github.com/Jaswanth-Kumar-2007" class="external-link" title="GitHub" aria-label="GitHub"><i class="fab fa-github fa-lg"></i></a>
+        <a href="https://www.linkedin.com/in/jaswanth-kumar-kamireddi-86ba09373/" class="external-link" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
+        <a href="https://www.instagram.com/kjk._.06/" class="external-link" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="padding:20px; text-align:center; color:rgba(255,255,255,0.85);">
+    © 2025 Jaswanth Kumar — Built with ❤️ and neon.
   </footer>
 
-  <!-- Scripts -->
+  <!-- Floating menu & sidebar -->
+  <div class="menu-btn" id="menuBtn" title="Menu"><i class="fas fa-bars" style="color:#fff"></i></div>
+  <div class="sidebar" id="sidebar">
+    <a href="#about" class="nav-link">About</a>
+    <a href="#skills" class="nav-link">Skills</a>
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </div>
+
+  <!-- Infinity Loader Overlay (center) -->
+  <div class="loader-overlay" id="loaderOverlay" aria-hidden="true">
+    <div style="text-align:center;">
+      <div class="loader-box">
+        <!-- SVG Infinity path, stroke dash animation -->
+        <svg class="infinity-svg" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ff2d95"/>
+              <stop offset="50%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+          <path id="infPath" d="M10,30 C10,5 50,5 60,30 C70,55 110,55 110,30 C110,5 70,5 60,30 C50,55 10,55 10,30 Z"
+            fill="none" stroke="url(#g1)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="200" stroke-dashoffset="200" />
+        </svg>
+      </div>
+      <div class="loader-caption" id="loaderCaption">Connecting the dots...</div>
+    </div>
+  </div>
+
+  <!-- Cursor trail note: small neon dots -->
+  <!-- SCRIPTS -->
   <script>
-    // Typing Effect
-    const textArray = ["Aspiring Software Engineer", "Open Source Enthusiast", "Web Developer"];
-    let typingSpeed = 120, erasingSpeed = 60, newTextDelay = 1500;
-    let textArrayIndex = 0, charIndex = 0;
-    const typedTextSpan = document.getElementById("typing");
+    /* ---------- Typing effect (slower on certain phrase) ---------- */
+    const phrases = ["Aspiring Software Engineer", "Open Source Enthusiast", "Web Developer"];
+    const typingEl = document.getElementById('typing');
+    let pIndex = 0, chIndex = 0, deleting=false;
+    const typeSpeed = 100, deleteSpeed = 50, pause = 1400;
 
-    function type() {
-      if (charIndex < textArray[textArrayIndex].length) {
-        typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
-        charIndex++; setTimeout(type, typingSpeed);
-      } else setTimeout(erase, newTextDelay);
-    }
-    function erase() {
-      if (charIndex > 0) {
-        typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex-1);
-        charIndex--; setTimeout(erase, erasingSpeed);
+    function tick(){
+      const full = phrases[pIndex];
+      if(!deleting){
+        typingEl.textContent = full.slice(0, chIndex+1);
+        chIndex++;
+        if(chIndex === full.length){
+          deleting = true;
+          // longer pause for "Open Source Enthusiast"
+          setTimeout(tick, (full.includes("Open Source") ? 1600 : pause));
+          return;
+        }
       } else {
-        textArrayIndex++; if (textArrayIndex >= textArray.length) textArrayIndex = 0;
-        setTimeout(type, typingSpeed + 500);
+        typingEl.textContent = full.slice(0, chIndex-1);
+        chIndex--;
+        if(chIndex === 0){
+          deleting = false;
+          pIndex = (pIndex+1) % phrases.length;
+        }
       }
+      setTimeout(tick, deleting ? deleteSpeed : (full.includes("Open Source") ? 160 : typeSpeed) );
     }
-    document.addEventListener("DOMContentLoaded", () => setTimeout(type, newTextDelay + 250));
+    document.addEventListener('DOMContentLoaded', ()=> setTimeout(tick, 700) );
 
-    // Theme Toggle
-    const themeToggle = document.getElementById("themeToggle");
-    const body = document.body;
-    themeToggle.addEventListener("click", () => {
-      if (body.getAttribute("data-theme") === "dark") {
-        body.setAttribute("data-theme", "light");
-        themeToggle.classList.replace("fa-moon", "fa-sun");
-      } else {
-        body.setAttribute("data-theme", "dark");
-        themeToggle.classList.replace("fa-sun", "fa-moon");
-      }
+    /* ---------- Theme toggle ---------- */
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', ()=>{
+      const body = document.body;
+      const icon = themeToggle.querySelector('i');
+      if(body.getAttribute('data-theme') === 'dark'){ body.setAttribute('data-theme','light'); icon.classList.replace('fa-moon','fa-sun'); }
+      else { body.setAttribute('data-theme','dark'); icon.classList.replace('fa-sun','fa-moon'); }
     });
+
+    /* ---------- Floating menu ---------- */
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    menuBtn.addEventListener('click', ()=> sidebar.classList.toggle('active'));
+    document.querySelectorAll('.sidebar a').forEach(a => a.addEventListener('click', ()=> sidebar.classList.remove('active')));
+
+    /* ---------- Cards tilt 3D effect ---------- */
+    function enableTilt(parentSelector, strength=12){
+      const cards = document.querySelectorAll(parentSelector);
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e)=>{
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width/2, cy = rect.height/2;
+          const dx = (x-cx)/cx; const dy = (y-cy)/cy;
+          const rotY = dx * strength; const rotX = -dy * strength;
+          card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
+        });
+        card.addEventListener('mouseleave', ()=> {
+          card.style.transform = `translateZ(0)`;
+          card.style.transition = 'transform 400ms cubic-bezier(.2,.9,.2,1)';
+          setTimeout(()=> card.style.transition = '', 450);
+        });
+      });
+    }
+    enableTilt('.card', 10);
+
+    /* ---------- Cursor trail (multi-color cycling) ---------- */
+    const colors = ['#ff2d95','#7c3aed','#06b6d4','#ffd66b'];
+    document.addEventListener('mousemove', e => {
+      const dot = document.createElement('div');
+      dot.className = 'cursor-dot';
+      dot.style.left = e.pageX + 'px';
+      dot.style.top = e.pageY + 'px';
+      dot.style.background = colors[Math.floor(Math.random() * colors.length)];
+      dot.style.boxShadow = `0 0 18px ${dot.style.background}, 0 0 34px ${dot.style.background}`;
+      document.body.appendChild(dot);
+      setTimeout(()=> dot.remove(), 800);
+    });
+
+    /* ---------- Infinity SVG stroke animation (loader) ---------- */
+    const loaderOverlay = document.getElementById('loaderOverlay');
+    const loaderPath = document.getElementById('infPath');
+    function playInfinityAnimation(duration=1200){
+      // animate stroke-dashoffset from full to 0 using JS
+      loaderPath.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(.2,.9,.2,1)`;
+      // compute length if not set
+      const len = loaderPath.getTotalLength();
+      loaderPath.style.strokeDasharray = len;
+      loaderPath.style.strokeDashoffset = len;
+      // force reflow
+      void loaderPath.getBoundingClientRect();
+      loaderPath.style.strokeDashoffset = 0;
+      // after finish reset for next play
+      setTimeout(()=> {
+        loaderPath.style.transition = '';
+        loaderPath.style.strokeDashoffset = loaderPath.getTotalLength();
+      }, duration + 80);
+    }
+
+    /* ---------- Loader control wrapper ---------- */
+    let loaderTimeout = null;
+    function showLoaderAndThen(actionFn, caption = 'Connecting the dots...', ms = 1200){
+      // show overlay
+      document.getElementById('loaderCaption').textContent = caption;
+      loaderOverlay.classList.add('show');
+      // start svg animation
+      playInfinityAnimation(ms);
+      // ensure minimum visible time
+      if(loaderTimeout) clearTimeout(loaderTimeout);
+      loaderTimeout = setTimeout(()=> {
+        // hide overlay
+        loaderOverlay.classList.remove('show');
+        actionFn();
+      }, ms + 200); // extra small buffer
+    }
+
+    /* ---------- External link / internal nav handling ---------- */
+    // external links (socials, project buttons, email text, project cards)
+    function openInNewTab(url){
+      window.open(url, '_blank', 'noopener');
+    }
+
+    // Attach to social / external link anchors
+    document.querySelectorAll('.external-link, .project-btn, .project[data-link], .skill[data-link]').forEach(el => {
+      el.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        // find link
+        let url = el.getAttribute('href') || el.dataset.link;
+        if(!url) return;
+        // small caption based on origin
+        const caption = url.includes('github.com') ? 'Launching GitHub...' : 'Connecting externally...';
+        showLoaderAndThen(()=> openInNewTab(url), caption, 1100);
+      });
+    });
+
+    // Clicking project card area should also open (not just button)
+    document.querySelectorAll('.project').forEach(card => {
+      card.addEventListener('click', (ev) => {
+        // avoid double if button already clicked
+        if(ev.target.closest('.project-btn')) return;
+        const url = card.dataset.link;
+        if(!url) return;
+        showLoaderAndThen(()=> openInNewTab(url), 'Opening project...', 1100);
+      });
+    });
+
+    // skills open external resource with a short spin effect then open
+    document.querySelectorAll('.skill').forEach(skill => {
+      skill.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const url = skill.dataset.link;
+        // quick visual: add animation class
+        skill.style.transition = 'transform .6s ease';
+        skill.style.transform += ' rotate(360deg) scale(.98)';
+        showLoaderAndThen(()=> openInNewTab(url), 'Opening resource...', 1000);
+      });
+    });
+
+    // internal nav links (smooth scroll) - use loader before scrolling
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const targetId = link.getAttribute('href').replace('#','');
+        const target = document.getElementById(targetId);
+        if(!target) return location.hash = link.getAttribute('href');
+        showLoaderAndThen(()=> {
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+        }, 'Navigating...', 900);
+      });
+    });
+
+    // also make header nav anchors (desktop nav) use loader
+    document.querySelectorAll('header nav a').forEach(a => {
+      a.addEventListener('click', (ev) => {
+        // if it's external (no #) let it be; otherwise apply loader
+        const href = a.getAttribute('href');
+        if(!href || href.startsWith('http') || href.startsWith('mailto:')) return;
+        ev.preventDefault();
+        const targetId = href.replace('#','');
+        const target = document.getElementById(targetId);
+        if(!target) return;
+        showLoaderAndThen(()=> target.scrollIntoView({behavior:'smooth', block:'start'}), 'Navigating...', 900);
+      });
+    });
+
+    /* ---------- Prevent link double actions: project-btns (buttons inside project cards) ---------- */
+    document.querySelectorAll('.project-btn').forEach(btn=>{
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const card = btn.closest('.project');
+        const url = card && card.dataset.link;
+        if(!url) return;
+        showLoaderAndThen(()=> openInNewTab(url), 'Opening project...', 1100);
+      });
+    });
+
+    /* ---------- Accessibility: close sidebar with Escape ---------- */
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') sidebar.classList.remove('active');
+    });
+
+    /* ---------- Ensure loader overlay kept hidden on load ---------- */
+    window.addEventListener('load', ()=>{
+      loaderPath.style.strokeDashoffset = loaderPath.getTotalLength();
+    });
+
   </script>
 </body>
 </html>
