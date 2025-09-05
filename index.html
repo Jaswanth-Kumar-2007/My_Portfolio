@@ -1,633 +1,253 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Jaswanth Kumar — Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaswanth Kumar - Portfolio</title>
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {
+      font-family:'Segoe UI',sans-serif;
+      background:linear-gradient(120deg,#fdfbfb,#ebedee);
+      color:#222;overflow-x:hidden;
+      transition:background 0.5s,color 0.5s;
+      position:relative;
+    }
+    body.dark {
+      background:linear-gradient(120deg,#0f0c29,#302b63,#24243e);
+      color:#f0f0f0;
+    }
+    a {text-decoration:none;color:inherit;}
+    
+    /* Particle Canvas */
+    #particles {
+      position:fixed;
+      top:0;left:0;
+      width:100%;height:100%;
+      z-index:-1;
+    }
 
-<!-- Font Awesome for icons -->
-<script src="https://kit.fontawesome.com/a2e0f1f5d2.js" crossorigin="anonymous"></script>
+    nav {
+      display:flex;justify-content:space-between;align-items:center;
+      padding:15px 40px;position:fixed;width:100%;top:0;
+      background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);
+      z-index:1000;transition:background 0.5s;
+    }
+    nav.dark {background:rgba(0,0,0,0.4);}
+    nav h1 {font-size:22px;font-weight:bold;}
+    nav ul {display:flex;list-style:none;gap:20px;}
+    nav ul li a:hover {color:#ff4081;}
+    .toggles {display:flex;gap:15px;align-items:center;}
 
-<style>
-/* ----------------- THEME & LAYOUT ----------------- */
-:root{
-  --accent-1: #ffb3d6; /* pastel pink */
-  --accent-2: #cbbcff; /* pastel purple */
-  --accent-3: #7fe7ea; /* pastel teal */
-  --glass: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.08);
-  --text-light: #06202b;
-  --muted-light: rgba(6,32,43,0.75);
-}
-[data-theme="dark"]{
-  --accent-1: #ff2d95;  /* neon */
-  --accent-2: #7c3aed;
-  --accent-3: #06b6d4;
-  --glass: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.06);
-  --text-light: #eaf6fb;
-  --muted-light: rgba(234,246,251,0.9);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
-  background: linear-gradient(120deg,var(--accent-2),var(--accent-1),var(--accent-3));
-  color: var(--text-light);
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-  overflow-x:hidden; position:relative;
-}
+    .switch {position:relative;display:inline-block;width:50px;height:24px;}
+    .switch input {opacity:0;width:0;height:0;}
+    .slider {
+      position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+      background:#ccc;transition:.4s;border-radius:24px;
+    }
+    .slider:before {
+      position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;
+      background:white;transition:.4s;border-radius:50%;
+    }
+    input:checked + .slider {background:#2196f3;}
+    input:checked + .slider:before {transform:translateX(26px);}
 
-/* animated gradient */
-.bg-animated{
-  position:fixed; inset:0; z-index:-3; background: linear-gradient(120deg,var(--accent-2),var(--accent-1),var(--accent-3));
-  background-size:600% 600%; animation: gradientShift 16s ease infinite; filter: saturate(1.05); pointer-events:none;
-}
-@keyframes gradientShift{
-  0%{background-position:0% 50%}
-  25%{background-position:50% 100%}
-  50%{background-position:100% 50%}
-  75%{background-position:50% 0%}
-  100%{background-position:0% 50%}
-}
+    header {
+      height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+      text-align:center;padding:0 20px;
+    }
+    header h2 {
+      font-size:48px;font-weight:800;
+      background:linear-gradient(45deg,#ff4081,#2196f3,#00ffcc);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      animation:glow 3s infinite alternate;
+    }
+    header p {font-size:20px;margin-top:10px;}
+    @keyframes glow {
+      from {text-shadow:0 0 10px #ff4081;}
+      to {text-shadow:0 0 20px #00ffcc;}
+    }
 
-/* particle canvas */
-#particle-canvas{ position:fixed; inset:0; z-index:-2; pointer-events:none; }
+    section {padding:80px 20px;text-align:center;}
+    h3 {font-size:32px;margin-bottom:20px;}
 
-/* layout */
-.wrap{ min-height:100vh; display:flex; flex-direction:column; }
+    .skills {
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:20px;
+    }
+    .skill {
+      padding:20px;background:rgba(255,255,255,0.2);
+      border-radius:12px;transition:transform 0.3s;
+      cursor:pointer;
+    }
+    body.dark .skill {background:rgba(0,0,0,0.3);}
+    .skill:hover {transform:scale(1.1) rotateY(10deg);}
 
-/* header */
-header{
-  position:sticky; top:0; z-index:150; display:flex; justify-content:space-between; align-items:center;
-  padding:14px 22px; background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.25));
-  border-bottom:1px solid var(--glass-border); backdrop-filter: blur(8px) saturate(110%);
-}
-[data-theme="dark"] header{
-  background: linear-gradient(180deg, rgba(3,6,10,0.18), rgba(3,6,10,0.05));
-  color: var(--text-light);
-}
-.brand{ display:flex; gap:10px; align-items:center; font-weight:700; letter-spacing:0.4px; color:var(--text-light) }
-.brand i{ color:var(--accent-3) }
-nav{ display:flex; gap:14px; align-items:center }
-nav a{ color:var(--text-light); font-weight:600; padding:6px 8px; border-radius:8px; transition:transform .15s, color .15s; }
-nav a:hover{ transform: translateY(-3px); color: var(--accent-3); }
+    .projects {
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;
+    }
+    .project {
+      padding:20px;border-radius:12px;background:rgba(255,255,255,0.2);
+      transition:transform 0.3s;cursor:pointer;
+    }
+    body.dark .project {background:rgba(0,0,0,0.3);}
+    .project:hover {transform:scale(1.05);}
+    .project a {color:#2196f3;font-weight:bold;}
 
-/* toggles container */
-.controls{ display:flex; gap:10px; align-items:center }
+    footer {
+      padding:30px;text-align:center;
+      background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);
+    }
+    body.dark footer {background:rgba(0,0,0,0.4);}
+    .socials {margin-top:10px;display:flex;justify-content:center;gap:20px;}
+    .socials a {font-size:26px;transition:transform 0.3s;}
+    .socials a:hover {transform:scale(1.3);color:#ff4081;}
 
-/* futuristic sliding switch - theme */
-.toggle-pill{
-  width:66px; height:34px; background:linear-gradient(90deg, rgba(0,0,0,0.04), rgba(255,255,255,0.04)); border-radius:999px; display:flex; align-items:center; padding:4px; gap:6px; cursor:pointer;
-  border:1px solid var(--glass-border); position:relative; transition:background .25s ease;
-}
-.toggle-knob{ width:26px; height:26px; border-radius:20px; background:linear-gradient(90deg,#fff, #fff); display:grid; place-items:center; box-shadow:0 6px 18px rgba(2,6,23,0.12); transition: transform .26s cubic-bezier(.2,.9,.2,1), background .25s; }
-.toggle-pill .icon{ font-size:13px; color:var(--muted-light); transition:opacity .18s }
-
-/* music toggle smaller pill */
-.music-pill{ width:48px; height:30px; border-radius:999px; display:flex; align-items:center; padding:3px; gap:6px; cursor:pointer; border:1px solid var(--glass-border); background:transparent; }
-.music-dot{ width:22px; height:22px; border-radius:50%; background:linear-gradient(90deg,var(--accent-3),var(--accent-2)); box-shadow:0 6px 18px rgba(2,6,23,0.12); display:grid; place-items:center; color:#011025; transform:translateX(0); transition: transform .26s cubic-bezier(.2,.9,.2,1) }
-
-/* hero */
-.hero{ min-height:86vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:44px 20px }
-.hero-inner{ max-width:980px }
-.name{ font-size: clamp(2rem,6vw,3.8rem); font-weight:800; letter-spacing:-0.02em; display:inline-block;
-  background:linear-gradient(90deg,var(--accent-1), #ffd66b, var(--accent-3)); -webkit-background-clip:text; background-clip:text; color:transparent;
-  animation: namePop .9s cubic-bezier(.2,.9,.2,1) both, neonPulse 3s ease-in-out infinite alternate;
-  text-shadow: 0 0 10px rgba(0,0,0,0.05);
-}
-@keyframes namePop{ from{opacity:0; transform:translateY(18px) scale(.98)} to{opacity:1; transform:translateY(0) scale(1)} }
-@keyframes neonPulse{ from{filter:drop-shadow(0 0 12px rgba(6,182,212,0.12));} to{filter:drop-shadow(0 0 34px rgba(255,45,149,0.15));} }
-.subtitle{ margin-top:14px; color:rgba(6,32,43,0.86); font-weight:700; display:flex; justify-content:center; gap:10px; align-items:center; flex-wrap:wrap }
-.typing{ color:var(--accent-3); border-right:2px solid var(--accent-3); padding-right:8px; font-weight:800 }
-
-/* sections */
-section{ padding:44px 20px; max-width:1100px; margin:auto }
-h2{ font-size:1.5rem; text-align:center; margin-bottom:8px; color:var(--text-light) }
-.subtext{ text-align:center; color:var(--muted-light); margin-bottom:20px; max-width:820px; margin-left:auto; margin-right:auto }
-
-/* grids */
-.grid{ display:grid; gap:16px }
-.skills{ grid-template-columns: repeat(auto-fit, minmax(140px,1fr)) }
-.projects{ grid-template-columns: repeat(auto-fit, minmax(240px,1fr)) }
-
-/* glass card base */
-.card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.55));
-  border: 1px solid rgba(6,32,43,0.06);
-  border-radius:12px; padding:14px; box-shadow:0 8px 24px rgba(3,6,12,0.06); transition: transform .25s, box-shadow .25s;
-  transform-style:preserve-3d; will-change:transform;
-}
-[data-theme="dark"] .card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  border:1px solid var(--glass-border);
-  box-shadow:0 12px 28px rgba(2,6,23,0.26);
-}
-.card .title{ font-weight:800; margin-bottom:6px; color:var(--text-light) }
-.card .desc{ color:var(--muted-light); font-size:0.95rem }
-
-/* skill */
-.skill{ text-align:center; padding:18px; cursor:pointer; user-select:none }
-.skill:hover{ transform: translateY(-6px) rotate(1deg) scale(.98); background: rgba(255,255,255,0.02) }
-.skill.spin{ animation: spinClick .72s linear }
-@keyframes spinClick{ 0%{transform:scale(1)} 50%{transform:rotate(180deg) scale(.95)} 100%{transform:rotate(360deg) scale(1)} }
-
-/* project */
-.project .btn{ display:inline-flex; gap:10px; align-items:center; margin-top:12px; padding:10px 12px; border-radius:10px; font-weight:800; background: linear-gradient(90deg,var(--accent-3),var(--accent-2)); color:#021025; box-shadow:0 8px 22px rgba(2,6,23,0.12); border:none; cursor:pointer }
-
-/* socials */
-.socials{ display:flex; gap:12px; justify-content:center; align-items:center; margin-top:12px }
-.socials a{ width:46px; height:46px; display:grid; place-items:center; border-radius:10px; background:linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.9)); color:#021025; border:1px solid rgba(0,0,0,0.04); transition: transform .18s, box-shadow .18s; box-shadow: 0 10px 30px rgba(2,6,23,0.06) }
-[data-theme="dark"] .socials a{ background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); color:var(--text-light); border:1px solid var(--glass-border) }
-.socials a:hover{ transform: translateY(-6px) scale(1.06); color:var(--accent-3) }
-
-/* infinity loader overlay */
-.loader-overlay{ position:fixed; inset:0; display:grid; place-items:center; z-index:9999; background:rgba(2,6,23,0.6); opacity:0; pointer-events:none; transition:opacity .12s ease }
-.loader-overlay.show{ opacity:1; pointer-events:auto }
-.loader-box{ width:160px; height:86px; display:flex; align-items:center; justify-content:center; filter:drop-shadow(0 10px 40px rgba(0,0,0,0.45)) }
-.in
-
-finty-hidden{}
-/* caption */
-.loader-caption{ margin-top:12px; color:#ffffff; font-weight:800; font-size:13px }
-
-/* cursor trail */
-.cursor-dot{ position:fixed; width:12px; height:12px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%); z-index:9998; mix-blend-mode:screen; opacity:.95; animation: dotFade .86s forwards; }
-@keyframes dotFade{ from{transform:translate(-50%,-50%) scale(1)} to{transform:translate(-50%,-50%) scale(.45); opacity:0} }
-
-/* responsive */
-@media (max-width:920px){ header nav{ display:none } .menu-btn{ right:12px; bottom:12px } }
-@media (max-width:520px){ .typing{ font-size:0.96rem } .project .btn{ width:100%; justify-content:center } }
-</style>
+    #loader {
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      background:#000;display:flex;justify-content:center;align-items:center;
+      z-index:2000;transition:opacity 0.5s;opacity:1;
+    }
+    #loader.hidden {opacity:0;pointer-events:none;}
+    .infinity-loader {
+      width:100px;height:100px;border:4px solid transparent;border-top:4px solid #ff4081;
+      border-radius:50%;animation:spin 1s linear infinite;
+    }
+    @keyframes spin {100%{transform:rotate(360deg);}}
+  </style>
 </head>
-<body data-theme="light">
-  <!-- animated gradient -->
-  <div class="bg-animated" aria-hidden="true"></div>
+<body>
+  <!-- Particle Background -->
+  <canvas id="particles"></canvas>
 
-  <!-- particle canvas -->
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <!-- Loader -->
+  <div id="loader"><div class="infinity-loader"></div></div>
 
-  <div class="wrap">
-    <!-- header -->
-    <header>
-      <div class="brand"><i class="fas fa-rocket"></i><div style="font-size:0.98rem">Jaswanth Kumar</div></div>
-
-      <nav>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#contact" class="nav-link">Contact</a>
-
-        <!-- controls: theme toggle + music -->
-        <div class="controls" style="margin-left:12px">
-          <!-- FUTURISTIC THEME TOGGLE (sliding pill) -->
-          <div class="toggle-pill" id="themePill" role="switch" aria-checked="false" title="Toggle theme">
-            <div class="icon" style="margin-left:6px; font-size:12px; color:var(--muted-light)"><i class="fas fa-sun"></i></div>
-            <div class="toggle-knob" id="themeKnob"><i class="icon" style="font-size:12px; color:#444"></i></div>
-            <div class="icon" style="margin-right:6px; margin-left:auto; font-size:12px; color:var(--muted-light)"><i class="fas fa-moon"></i></div>
-          </div>
-
-          <!-- MUSIC TOGGLE -->
-          <div class="music-pill" id="musicPill" title="Toggle music">
-            <div class="music-dot" id="musicDot"><i id="musicIcon" class="fas fa-music" style="font-size:12px"></i></div>
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <!-- HERO -->
-    <main>
-      <section class="hero">
-        <div class="hero-inner">
-          <div style="display:flex; justify-content:center;">
-            <div class="name">Hi — I'm <span style="display:inline-block;margin-left:8px">Jaswanth</span></div>
-          </div>
-          <div class="subtitle">
-            <div class="typing" id="typing"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ABOUT -->
-      <section id="about">
-        <h2>About Me</h2>
-        <p class="subtext">Student developer building futuristic web experiences. I explore Full-Stack development, AI, and open-source — creating beautiful, fast interfaces with delightful micro-interactions.</p>
-      </section>
-
-      <!-- SKILLS -->
-      <section id="skills">
-        <h2>Skills</h2>
-        <div class="grid skills" id="skillsGrid">
-          <div class="card skill" data-link="https://developer.mozilla.org/en-US/docs/Web/HTML">
-            <div class="title">HTML</div><div class="desc">Semantic & accessible markup</div>
-          </div>
-          <div class="card skill" data-link="https://developer.mozilla.org/en-US/docs/Web/CSS">
-            <div class="title">CSS</div><div class="desc">Responsive layouts & animations</div>
-          </div>
-          <div class="card skill" data-link="https://developer.mozilla.org/en-US/docs/Web/JavaScript">
-            <div class="title">JavaScript</div><div class="desc">DOM, async & tooling</div>
-          </div>
-          <div class="card skill" data-link="https://www.python.org/">
-            <div class="title">Python</div><div class="desc">Scripting & ML prototyping</div>
-          </div>
-          <div class="card skill" data-link="https://isocpp.org/">
-            <div class="title">C++</div><div class="desc">Systems & performance</div>
-          </div>
-          <div class="card skill" data-link="https://www.mysql.com/">
-            <div class="title">SQL</div><div class="desc">Data modeling & queries</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PROJECTS -->
-      <section id="projects">
-        <h2>Projects</h2>
-        <div class="grid projects" id="projectsGrid">
-          <div class="card project" data-link="https://github.com/Jaswanth-Kumar-2007/Product-Space-AI-Project">
-            <div class="title">Product Space AI Project</div>
-            <div class="desc">AI-powered product recommendation & optimization.</div>
-            <button class="btn project-btn">Open on GitHub <i class="fas fa-external-link-alt" style="opacity:0.9;margin-left:6px"></i></button>
-          </div>
-          <div class="card project" data-link="https://github.com/Jaswanth-Kumar-2007/Student-Study-Helper">
-            <div class="title">Student Study Helper</div>
-            <div class="desc">Study planner & resources assistant for students.</div>
-            <button class="btn project-btn">Open on GitHub <i class="fas fa-external-link-alt" style="opacity:0.9;margin-left:6px"></i></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact">
-        <h2>Get in Touch</h2>
-        <p class="subtext">Email: <a href="mailto:jaswanth@example.com" class="external-link">jaswanth@example.com</a></p>
-        <div class="socials">
-          <a href="https://github.com/Jaswanth-Kumar-2007" class="external-link" title="GitHub"><i class="fab fa-github fa-lg"></i></a>
-          <a href="https://www.linkedin.com/in/jaswanth-kumar-kamireddi-86ba09373/" class="external-link" title="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
-          <a href="https://www.instagram.com/kjk._.06/" class="external-link" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-        </div>
-      </section>
-    </main>
-
-    <footer style="text-align:center;padding:20px;color:rgba(6,32,43,0.7)">© 2025 Jaswanth Kumar — Built with ❤️ and neon.</footer>
-  </div>
-
-  <!-- loader overlay -->
-  <div class="loader-overlay" id="loaderOverlay" aria-hidden="true">
-    <div style="text-align:center">
-      <div class="loader-box" aria-hidden="true">
-        <svg class="infinity-svg" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#ff2d95"/>
-              <stop offset="50%" stop-color="#7c3aed"/>
-              <stop offset="100%" stop-color="#06b6d4"/>
-            </linearGradient>
-          </defs>
-          <path id="infPath" d="M10,30 C10,5 50,5 60,30 C70,55 110,55 110,30 C110,5 70,5 60,30 C50,55 10,55 10,30 Z"
-            fill="none" stroke="url(#g1)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="200" stroke-dashoffset="200"/>
-        </svg>
-      </div>
-      <div class="loader-caption" id="loaderCaption">Connecting the dots...</div>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <h1>Jaswanth Kumar</h1>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="toggles">
+      <label class="switch">
+        <input type="checkbox" id="modeToggle">
+        <span class="slider"></span>
+      </label>
     </div>
-  </div>
+  </nav>
 
-<script>
-/* ----------------- TYPING EFFECT ----------------- */
-const phrases = ["Aspiring Software Engineer", "Open Source Enthusiast", "Web Developer"];
-const typingEl = document.getElementById('typing');
-let pIndex = 0, chIndex = 0, deleting = false;
-const typeSpeed = 90, deleteSpeed = 50, pause = 1400;
-function tick(){
-  const full = phrases[pIndex];
-  if(!deleting){
-    typingEl.textContent = full.slice(0, chIndex+1);
-    chIndex++;
-    if(chIndex === full.length){
-      deleting = true;
-      setTimeout(tick, (full.includes("Open Source") ? 1600 : pause));
-      return;
-    }
-  } else {
-    typingEl.textContent = full.slice(0, chIndex-1);
-    chIndex--;
-    if(chIndex === 0){
-      deleting = false;
-      pIndex = (pIndex+1) % phrases.length;
-    }
-  }
-  setTimeout(tick, deleting ? deleteSpeed : (full.includes("Open Source") ? 160 : typeSpeed) );
-}
-document.addEventListener('DOMContentLoaded', ()=> setTimeout(tick, 700) );
+  <!-- Hero -->
+  <header>
+    <h2>Hello, I'm Jaswanth</h2>
+    <p>Open Source Enthusiast | Future Software Engineer</p>
+  </header>
 
-/* ----------------- THEME TOGGLE (futuristic sliding) ----------------- */
-const themePill = document.getElementById('themePill');
-const themeKnob = document.getElementById('themeKnob');
-let currentTheme = localStorage.getItem('site-theme') || 'light';
-document.body.setAttribute('data-theme', currentTheme);
-(function positionTheme(){
-  const isDark = document.body.getAttribute('data-theme') === 'dark';
-  themeKnob.style.transform = isDark ? 'translateX(30px)' : 'translateX(0)';
-  themePill.setAttribute('aria-checked', isDark ? 'true' : 'false');
-})();
-themePill.addEventListener('click', ()=>{
-  const isDark = document.body.getAttribute('data-theme') === 'dark';
-  if(isDark){
-    document.body.setAttribute('data-theme','light'); themeKnob.style.transform='translateX(0)'; localStorage.setItem('site-theme','light');
-  } else {
-    document.body.setAttribute('data-theme','dark'); themeKnob.style.transform='translateX(30px)'; localStorage.setItem('site-theme','dark');
-  }
-  // update particle palette when theme changes
-  updateParticlePalette();
-});
+  <!-- About -->
+  <section id="about">
+    <h3>About Me</h3>
+    <p>I am a passionate student exploring programming, AI, and modern web development.</p>
+  </section>
 
-/* ----------------- MUSIC (WebAudio ambient synth) ----------------- */
-let audioCtx = null, masterGain = null, musicOn = false, musicLoopNodes = [];
-const musicPill = document.getElementById('musicPill');
-const musicDot = document.getElementById('musicDot');
-const musicIcon = document.getElementById('musicIcon');
+  <!-- Skills -->
+  <section id="skills">
+    <h3>Skills</h3>
+    <div class="skills">
+      <div class="skill">Python</div>
+      <div class="skill">C</div>
+      <div class="skill">JavaScript</div>
+      <div class="skill">React</div>
+      <div class="skill">Tailwind</div>
+    </div>
+  </section>
 
-function createAmbientLoop(){
-  if(!audioCtx){
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0; // start muted
-    masterGain.connect(audioCtx.destination);
+  <!-- Projects -->
+  <section id="projects">
+    <h3>Projects</h3>
+    <div class="projects">
+      <div class="project">
+        <h4>Product Space AI Project</h4>
+        <a href="https://github.com/Jaswanth-Kumar-2007/Product-Space-AI-Project" target="_blank">View on GitHub</a>
+      </div>
+      <div class="project">
+        <h4>Student Study Helper</h4>
+        <a href="https://github.com/Jaswanth-Kumar-2007/Student-Study-Helper" target="_blank">View on GitHub</a>
+      </div>
+    </div>
+  </section>
 
-    // create 3 layered oscillators with slow LFOs for detune
-    const now = audioCtx.currentTime;
-    for(let i=0;i<3;i++){
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      const lfo = audioCtx.createOscillator();
-      const lfoGain = audioCtx.createGain();
+  <!-- Contact -->
+  <section id="contact">
+    <h3>Contact</h3>
+    <p>Feel free to connect with me on social platforms:</p>
+    <div class="socials">
+      <a href="https://github.com/Jaswanth-Kumar-2007" target="_blank">🐱</a>
+      <a href="https://www.linkedin.com/in/jaswanth-kumar-kamireddi-86ba09373/" target="_blank">💼</a>
+      <a href="https://www.instagram.com/kjk._.06/" target="_blank">📸</a>
+    </div>
+  </section>
 
-      osc.type = i === 1 ? 'sine' : 'triangle';
-      osc.frequency.value = [110, 220, 330][i] * (i===0?0.5:1); // layered
-      osc.detune.value = (Math.random()-0.5)*30;
+  <footer>
+    <p>© 2025 Jaswanth Kumar</p>
+  </footer>
 
-      gain.gain.value = 0.15 * (i===2?0.5:1);
-      lfo.type = 'sine';
-      lfo.frequency.value = 0.05 + Math.random()*0.03;
-      lfoGain.gain.value = 10 + Math.random()*20;
-
-      lfo.connect(lfoGain);
-      lfoGain.connect(osc.frequency);
-
-      // tiny bandpass-ish via biquad
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'lowpass'; filter.frequency.value = 1200 - i*200;
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(masterGain);
-
-      osc.start(now + i*0.02);
-      lfo.start(now + i*0.02);
-
-      musicLoopNodes.push({osc, lfo, gain, filter});
-    }
-
-    // gentle noise (via buffer) to add space
-    const bufferSize = audioCtx.sampleRate * 1;
-    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const data = noiseBuffer.getChannelData(0);
-    for(let i=0;i<bufferSize;i++) data[i] = (Math.random()*2-1)*0.012;
-    const noiseSrc = audioCtx.createBufferSource();
-    noiseSrc.buffer = noiseBuffer; noiseSrc.loop = true;
-    const noiseGain = audioCtx.createGain(); noiseGain.gain.value = 0.06;
-    noiseSrc.connect(noiseGain); noiseGain.connect(masterGain);
-    noiseSrc.start(now+0.05);
-    musicLoopNodes.push({noiseSrc, noiseGain});
-  }
-}
-
-// fade helpers
-function fadeInMusic(duration=0.9){
-  if(!audioCtx) createAmbientLoop();
-  const now = audioCtx.currentTime;
-  masterGain.gain.cancelScheduledValues(now);
-  masterGain.gain.setValueAtTime(masterGain.gain.value, now);
-  masterGain.gain.linearRampToValueAtTime(0.6, now + duration);
-}
-function fadeOutMusic(duration=0.9){
-  if(!audioCtx) return;
-  const now = audioCtx.currentTime;
-  masterGain.gain.cancelScheduledValues(now);
-  masterGain.gain.setValueAtTime(masterGain.gain.value, now);
-  masterGain.gain.linearRampToValueAtTime(0.0, now + duration);
-}
-
-// music toggle UI behavior
-musicPill.addEventListener('click', ()=>{
-  if(!musicOn){
-    // enable
-    createAmbientLoop();
-    // resume audio context if suspended (required on some browsers)
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    fadeInMusic(0.9);
-    musicDot.style.transform = 'translateX(18px)';
-    musicIcon.className = 'fas fa-volume-up';
-    musicOn = true;
-  } else {
-    // disable
-    fadeOutMusic(0.9);
-    musicDot.style.transform = 'translateX(0)';
-    musicIcon.className = 'fas fa-music';
-    musicOn = false;
-  }
-});
-
-/* ----------------- PARTICLES (canvas) ----------------- */
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = innerWidth, H = canvas.height = innerHeight;
-let particles = [];
-function random(min,max){ return Math.random()*(max-min)+min; }
-
-// palettes for light/dark
-const pastelPalette = ['#ffd6e8','#e3d7ff','#bff8f6','#fff0b8'];
-const neonPalette = ['#ff2d95','#7c3aed','#06b6d4','#ffd66b'];
-let currentPalette = pastelPalette.slice();
-
-function setupParticles(){
-  particles = [];
-  const count = Math.max(30, Math.floor((W*H)/90000));
-  for(let i=0;i<count;i++){
-    particles.push({
-      x: random(0,W), y: random(0,H),
-      r: random(0.8,3.2),
-      vx: random(-0.25,0.25), vy: random(-0.18,0.18),
-      hue: currentPalette[Math.floor(Math.random()*currentPalette.length)],
-      alpha: random(0.35,0.9)
+  <script>
+    // Loader
+    window.addEventListener("load", ()=> {
+      setTimeout(()=> document.getElementById("loader").classList.add("hidden"), 800);
     });
-  }
-}
-function resize(){
-  W = canvas.width = innerWidth; H = canvas.height = innerHeight;
-  setupParticles();
-}
-addEventListener('resize', resize);
-setupParticles();
 
-function drawParticles(){
-  ctx.clearRect(0,0,W,H);
-  for(const p of particles){
-    p.x += p.vx; p.y += p.vy;
-    if(p.x < -10) p.x = W+10;
-    if(p.x > W+10) p.x = -10;
-    if(p.y < -10) p.y = H+10;
-    if(p.y > H+10) p.y = -10;
-
-    const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5);
-    g.addColorStop(0, p.hue);
-    g.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.globalAlpha = p.alpha;
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); ctx.closePath();
-    ctx.globalAlpha = 1;
-  }
-  requestAnimationFrame(drawParticles);
-}
-drawParticles();
-
-// update particle palette when theme toggles
-function updateParticlePalette(){
-  const isDark = document.body.getAttribute('data-theme') === 'dark';
-  currentPalette = isDark ? neonPalette.slice() : pastelPalette.slice();
-  // recolor existing particles
-  for(const p of particles) p.hue = currentPalette[Math.floor(Math.random()*currentPalette.length)];
-}
-
-/* ----------------- 3D TILT for CARDS ----------------- */
-function enableTilt(selector, strength=10){
-  document.querySelectorAll(selector).forEach(card=>{
-    card.addEventListener('mousemove', e=>{
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      const cx = rect.width/2, cy = rect.height/2;
-      const dx = (x-cx)/cx, dy = (y-cy)/cy;
-      const rotY = dx * strength, rotX = -dy * strength;
-      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(10px)`;
+    // Dark Mode Toggle
+    const toggle = document.getElementById("modeToggle");
+    const body = document.body;
+    const nav = document.getElementById("navbar");
+    toggle.addEventListener("change", ()=>{
+      body.classList.toggle("dark");
+      nav.classList.toggle("dark");
     });
-    card.addEventListener('mouseleave', ()=> {
-      card.style.transform = `translateZ(0)`;
-      card.style.transition = 'transform 400ms cubic-bezier(.2,.9,.2,1)';
-      setTimeout(()=> card.style.transition = '', 420);
+
+    // Infinity Loader before external links
+    document.querySelectorAll("a[target='_blank']").forEach(link=>{
+      link.addEventListener("click", (e)=>{
+        e.preventDefault();
+        document.getElementById("loader").classList.remove("hidden");
+        setTimeout(()=> window.open(link.href,"_blank"),1000);
+      });
     });
-  });
-}
-enableTilt('.card', 9);
 
-/* ----------------- CURSOR TRAIL ----------------- */
-const colorDots = ['#ff2d95','#7c3aed','#06b6d4','#ffd66b','#ffd6e8'];
-document.addEventListener('mousemove', e=>{
-  const dot = document.createElement('div');
-  dot.className = 'cursor-dot';
-  dot.style.left = e.pageX + 'px';
-  dot.style.top = e.pageY + 'px';
-  const c = colorDots[Math.floor(Math.random()*colorDots.length)];
-  dot.style.background = c;
-  dot.style.boxShadow = `0 0 14px ${c}, 0 0 30px ${c}`;
-  document.body.appendChild(dot);
-  setTimeout(()=> dot.remove(), 860);
-});
+    // Particle Background
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+    window.addEventListener("resize",resize);resize();
 
-/* ----------------- INFINITY LOADER ----------------- */
-const loaderOverlay = document.getElementById('loaderOverlay');
-const loaderPath = document.getElementById('infPath');
-function playInfinity(ms=1100){
-  const len = loaderPath.getTotalLength();
-  loaderPath.style.strokeDasharray = len;
-  loaderPath.style.strokeDashoffset = len;
-  loaderPath.getBoundingClientRect();
-  loaderPath.style.transition = `stroke-dashoffset ${ms}ms cubic-bezier(.2,.9,.2,1)`;
-  loaderPath.style.strokeDashoffset = 0;
-  setTimeout(()=> { loaderPath.style.transition = ''; loaderPath.style.strokeDashoffset = len; }, ms+80);
-}
-let loaderTimer = null;
-function showLoaderThen(action, caption='Connecting the dots...', ms=1100){
-  document.getElementById('loaderCaption').textContent = caption;
-  loaderOverlay.classList.add('show');
-  playInfinity(ms);
-  if(loaderTimer) clearTimeout(loaderTimer);
-  loaderTimer = setTimeout(()=> {
-    loaderOverlay.classList.remove('show');
-    action();
-  }, ms + 260);
-}
+    for(let i=0;i<60;i++){
+      particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*3+1,
+        dx:(Math.random()-0.5)*1,
+        dy:(Math.random()-0.5)*1
+      });
+    }
 
-/* ----------------- NAVIGATION & EXTERNAL LINK HANDLING ----------------- */
-// helper open in new tab
-function openNewTab(url){ window.open(url,'_blank','noopener'); }
-
-// attach external link handlers: links with class external-link, project buttons, skill cards etc
-document.addEventListener('click', function(e){
-  const el = e.target.closest('.external-link, .project-btn, .project, .skill');
-  if(!el) return;
-  e.preventDefault();
-
-  // find url
-  let url = el.getAttribute('href') || el.dataset.link || el.closest('.project')?.dataset?.link || el.closest('.skill')?.dataset?.link;
-  if(!url) return;
-
-  // internal project card vs button: if it's a project card open project, if it's an 'external-link' it could be an email or social
-  const caption = url.includes('github.com') ? 'Launching GitHub...' : (url.startsWith('mailto:') ? 'Opening mail...' : 'Connecting externally...');
-  // visual spin for skills
-  const skillCard = e.target.closest('.skill') || (el.classList && el.classList.contains('skill') ? el : null);
-  if(skillCard){
-    skillCard.classList.add('spin');
-    setTimeout(()=> skillCard.classList.remove('spin'), 900);
-  }
-  showLoaderThen(()=> openNewTab(url), caption, 1100);
-});
-
-// internal nav (scroll) -- nav links have .nav-link class
-document.querySelectorAll('.nav-link').forEach(link=>{
-  link.addEventListener('click', function(e){
-    e.preventDefault();
-    const id = this.getAttribute('href').replace('#','');
-    const target = document.getElementById(id);
-    if(!target) return location.hash = this.getAttribute('href');
-    showLoaderThen(()=> target.scrollIntoView({behavior:'smooth', block:'start'}), 'Navigating...', 900);
-  });
-});
-
-/* project button explicit handlers (buttons inside .project) */
-document.querySelectorAll('.project-btn').forEach(btn=>{
-  btn.addEventListener('click', function(e){
-    e.preventDefault();
-    const card = this.closest('.project');
-    const url = card?.dataset?.link;
-    if(!url) return;
-    showLoaderThen(()=> openNewTab(url), 'Opening project...', 1100);
-  });
-});
-
-/* ----------------- INTERNAL: setup loader path on load ----------------- */
-window.addEventListener('load', ()=> {
-  loaderPath.style.strokeDashoffset = loaderPath.getTotalLength();
-});
-
-/* ----------------- PARTICLE PALETTE ADAPTATION ----------------- */
-function updateParticlePalette(){
-  const isDark = document.body.getAttribute('data-theme') === 'dark';
-  // pick palette
-  const pal = isDark ? ['#ff2d95','#7c3aed','#06b6d4','#ffd66b'] : ['#ffd6e8','#e3d7ff','#bff8f6','#fff0b8'];
-  for(const p of particles) p.hue = pal[Math.floor(Math.random()*pal.length)];
-}
-
-// on theme change persist
-(function(){
-  // ensure local theme default set to light
-  const saved = localStorage.getItem('site-theme');
-  if(!saved) localStorage.setItem('site-theme','light');
-})();
-
-/* ensure particles update when theme toggled */
-const obs = new MutationObserver(()=> updateParticlePalette());
-obs.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
-
-/* Done */
-</script>
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle=body.classList.contains("dark")?"#00ffcc":"#555";
+      particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+        p.x+=p.dx;p.y+=p.dy;
+        if(p.x<0||p.x>canvas.width)p.dx*=-1;
+        if(p.y<0||p.y>canvas.height)p.dy*=-1;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
 </body>
 </html>
